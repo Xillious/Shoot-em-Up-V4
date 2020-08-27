@@ -11,7 +11,7 @@
                     "id": "d31ee085-a6fa-4326-8aae-0ceb57d0556d",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Tap"
+                    "interactions": ""
                 },
                 {
                     "name": "Movement",
@@ -22,9 +22,9 @@
                     "interactions": ""
                 },
                 {
-                    "name": "ShootTest",
+                    "name": "Shield",
                     "type": "Button",
-                    "id": "fb73a175-ccb3-4037-beea-9c0667f69570",
+                    "id": "b92faed9-9435-4464-bf80-ca89a470d2ab",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -36,6 +36,39 @@
                     "id": "2e3fdaee-47e0-4db4-ae4f-37f6de9b1647",
                     "path": "<Keyboard>/space",
                     "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7d9e922a-2840-4d2d-9d21-0ceaefa294ac",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d80d933f-a478-4739-81e8-edd9f3a855b2",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b05b8137-7c44-46d5-a20b-03cd4f9d19da",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "Shoot",
@@ -154,12 +187,23 @@
                 },
                 {
                     "name": "",
-                    "id": "7db463a6-1167-4bec-b9bd-3c5524f7eb78",
-                    "path": "<Mouse>/leftButton",
+                    "id": "e9b6ce90-c8db-46a2-8c30-c66fb3b07d8a",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ShootTest",
+                    "action": "Shield",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fbd67347-f458-4172-8571-587a0c9ea75b",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shield",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

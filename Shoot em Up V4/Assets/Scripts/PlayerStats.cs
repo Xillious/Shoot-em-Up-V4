@@ -5,7 +5,11 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
 
-    public float moveSpeed = 7f;
+    public float moveSpeed;
+    public float shotFrequency;
+    public float shieldAmount;
+    public float shieldDecayRate;
+
 
     void Start()
     {
