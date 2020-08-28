@@ -79,7 +79,8 @@ public class Player : MonoBehaviour
         }
 
         //increased the shot cooldown
-        _shotCooldown += 1 * Time.deltaTime;
+        //_shotCooldown += 1 * Time.deltaTime;
+        _shotCooldown++;
 
         //checks if the player is currently shielding and has shield to use
         if (shielding == true && _shieldAmount > 0)
