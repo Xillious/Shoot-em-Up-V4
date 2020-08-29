@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
 
     private Animator animator;
 
+
+
     void Awake()
     {
         inputMaster = new InputMaster();
@@ -41,6 +43,8 @@ public class Player : MonoBehaviour
 
         inputMaster.Player.Shield.performed += ctx => shielding = true;
         inputMaster.Player.Shield.canceled += ctx => shielding = false;
+
+        inputMaster.Player.G.performed += ctx => Damage();
 
     }
 
@@ -95,6 +99,22 @@ public class Player : MonoBehaviour
 
         animator.SetBool("Stealth", shielding);
 
+
+
+    }
+
+    void Damage()
+    {
+
+        StartCoroutine(TakeDamage(.5f));
+
+    }
+
+    private IEnumerator TakeDamage(float _duration)
+    {
+        animator.SetBool("TakingDamage", true);
+        yield return new WaitForSecondsRealtime(_duration);
+        animator.SetBool("TakingDamage", false);
     }
 
     void Shoot()
@@ -133,9 +153,9 @@ public class Player : MonoBehaviour
 
     private IEnumerator InitialiseStats()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.2f);
         UpdatePlayerStats();
-        Debug.Log("INITIALISE PLAYER");
+        Debug.Log("INITIALISE PLAYER STATS");
     }
 
 }

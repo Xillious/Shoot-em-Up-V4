@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
 
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log("hit enemy");
+
             objectPooler.SpawnfromPool("BulletHit", transform.position, transform.rotation);
             gameObject.SetActive(false);
         }
