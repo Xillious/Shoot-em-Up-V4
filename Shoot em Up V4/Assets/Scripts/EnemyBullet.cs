@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class EnemyBullet : MonoBehaviour
 {
-    public float speed = 15f;
+    public float speed = 6f;
     private ObjectPooler objectPooler;
 
     void Start()
@@ -12,20 +12,18 @@ public class Bullet : MonoBehaviour
         objectPooler = ObjectPooler.Instance;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         transform.Translate(0, speed * Time.deltaTime, 0);
     }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Shield"))
         {
-
-            objectPooler.SpawnfromPool("BulletHit", transform.position, transform.rotation);
             gameObject.SetActive(false);
-            //play hit enemy sound
+            //play hit shield sound
         }
     }
 }

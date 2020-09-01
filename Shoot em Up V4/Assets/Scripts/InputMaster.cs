@@ -49,6 +49,14 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""bff00e32-6616-4ab2-888d-478df3162169"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -238,6 +246,44 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""G"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eec66de1-35cd-4735-8230-13be2701e6bd"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Enemy"",
+            ""id"": ""aa47b31d-5349-4442-9e53-20e83b4b2f1c"",
+            ""actions"": [
+                {
+                    ""name"": ""Shoot "",
+                    ""type"": ""Button"",
+                    ""id"": ""648af4b8-296f-41ee-98a7-97227ca9831f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""a2be066f-e6b0-47d3-a3fb-e1aaf65ca494"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot "",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -250,6 +296,10 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Shield = m_Player.FindAction("Shield", throwIfNotFound: true);
         m_Player_G = m_Player.FindAction("G", throwIfNotFound: true);
+        m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
+        // Enemy
+        m_Enemy = asset.FindActionMap("Enemy", throwIfNotFound: true);
+        m_Enemy_Shoot = m_Enemy.FindAction("Shoot ", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -303,6 +353,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Shield;
     private readonly InputAction m_Player_G;
+    private readonly InputAction m_Player_Select;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
@@ -311,6 +362,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Shield => m_Wrapper.m_Player_Shield;
         public InputAction @G => m_Wrapper.m_Player_G;
+        public InputAction @Select => m_Wrapper.m_Player_Select;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -332,6 +384,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @G.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnG;
                 @G.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnG;
                 @G.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnG;
+                @Select.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
+                @Select.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
+                @Select.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -348,15 +403,56 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @G.started += instance.OnG;
                 @G.performed += instance.OnG;
                 @G.canceled += instance.OnG;
+                @Select.started += instance.OnSelect;
+                @Select.performed += instance.OnSelect;
+                @Select.canceled += instance.OnSelect;
             }
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // Enemy
+    private readonly InputActionMap m_Enemy;
+    private IEnemyActions m_EnemyActionsCallbackInterface;
+    private readonly InputAction m_Enemy_Shoot;
+    public struct EnemyActions
+    {
+        private @InputMaster m_Wrapper;
+        public EnemyActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Shoot => m_Wrapper.m_Enemy_Shoot;
+        public InputActionMap Get() { return m_Wrapper.m_Enemy; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(EnemyActions set) { return set.Get(); }
+        public void SetCallbacks(IEnemyActions instance)
+        {
+            if (m_Wrapper.m_EnemyActionsCallbackInterface != null)
+            {
+                @Shoot.started -= m_Wrapper.m_EnemyActionsCallbackInterface.OnShoot;
+                @Shoot.performed -= m_Wrapper.m_EnemyActionsCallbackInterface.OnShoot;
+                @Shoot.canceled -= m_Wrapper.m_EnemyActionsCallbackInterface.OnShoot;
+            }
+            m_Wrapper.m_EnemyActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Shoot.started += instance.OnShoot;
+                @Shoot.performed += instance.OnShoot;
+                @Shoot.canceled += instance.OnShoot;
+            }
+        }
+    }
+    public EnemyActions @Enemy => new EnemyActions(this);
     public interface IPlayerActions
     {
         void OnShoot(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
         void OnShield(InputAction.CallbackContext context);
         void OnG(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
+    }
+    public interface IEnemyActions
+    {
+        void OnShoot(InputAction.CallbackContext context);
     }
 }

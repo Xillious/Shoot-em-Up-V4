@@ -46,6 +46,8 @@ public class Player : MonoBehaviour
 
         inputMaster.Player.G.performed += ctx => Damage();
 
+        inputMaster.Player.Select.performed += ctx => UpdatePlayerStats();
+
     }
 
     void Start()
@@ -83,8 +85,8 @@ public class Player : MonoBehaviour
         }
 
         //increased the shot cooldown
-        //_shotCooldown += 1 * Time.deltaTime;
-        _shotCooldown++;
+        _shotCooldown += 1 * Time.deltaTime;
+        //_shotCooldown++;
 
         //checks if the player is currently shielding and has shield to use
         if (shielding == true && _shieldAmount > 0)
@@ -119,7 +121,7 @@ public class Player : MonoBehaviour
 
     void Shoot()
     {
-        objectPooler.SpawnfromPool("Bullet", transform.position, transform.rotation);
+        objectPooler.SpawnfromPool("Bullet", transform.position + new Vector3(0, 0.7f, 0), transform.rotation);
         _shotCooldown = 0;
     }
 
@@ -145,6 +147,7 @@ public class Player : MonoBehaviour
 
     void UpdatePlayerStats()
     {
+        Debug.Log("Player Stats Updated");
         _movespeed = playerStats.moveSpeed;
         _shotFrequency = playerStats.shotFrequency;
         _shieldAmount = playerStats.shieldAmount;
